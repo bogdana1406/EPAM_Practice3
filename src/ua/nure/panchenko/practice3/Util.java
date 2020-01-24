@@ -6,8 +6,6 @@ import java.nio.file.Paths;
 
 public class Util {
 
-    private static final String ENCODING = "Cp1251";
-
     public static String readFile(String path) {
         String res = null;
         try {

@@ -6,6 +6,18 @@ import java.util.regex.Pattern;
 public class Part3 {
     private static String input = Util.readFile("part3.txt");
 
+    private static String reversFirstLetter(String word) {
+        char first = word.charAt(0);
+        char firstToUpp = Character.toUpperCase(first);
+        char firstToLow = Character.toLowerCase(first);
+        if (first == firstToUpp) {
+            word = word.replaceFirst(Character.toString(first), Character.toString(firstToLow));
+        } else {
+            word = word.replaceFirst(Character.toString(first), Character.toString(firstToUpp));
+        }
+        return word;
+    }
+
     public static String convert(String input) {
         StringBuilder sb = new StringBuilder();
 
@@ -17,12 +29,7 @@ public class Part3 {
 
             for (int j = 0; j < word.length; j++) {
                 if (word[j].matches(pattern)) {
-                    String first = word[j].substring(0, 1);
-                    if (first.toUpperCase().equals(first)) {
-                        word[j] = word[j].replaceFirst(first, first.toLowerCase());
-                    } else {
-                        word[j] = word[j].replaceFirst(first, first.toUpperCase());
-                    }
+                   word[j] = reversFirstLetter(word[j]);
                 } else {
                     Pattern pattern2 = Pattern.compile("[\\p{Alpha}\\p{InCyrillic}]+[\\p{Punct}\\p{Pd}$]*");
                     Matcher matcher = pattern2.matcher(word[j]);
@@ -32,13 +39,7 @@ public class Part3 {
                         String patternLength = "[\\p{Alpha}\\p{InCyrillic}]{3,}[\\p{Punct}\\p{Pd}$]*";
                         boolean isLength = Pattern.matches(patternLength, partWord);
                         if (isLength) {
-
-                            String first = partWord.substring(0, 1);
-                            if (first.toUpperCase().equals(first)) {
-                                partWord = partWord.replaceFirst(first, first.toLowerCase());
-                            } else {
-                                partWord = partWord.replaceFirst(first, first.toUpperCase());
-                            }
+                           partWord = reversFirstLetter(partWord);
                         }
                         sb.append(partWord);
                         word[j] = word[j].substring(matcher.group().length());

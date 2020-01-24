@@ -1,12 +1,16 @@
 package ua.nure.panchenko.practice3;
 
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Part1 {
 
     private static String input = Util.readFile("part1.txt");
+
+    private static int last = (int) (System.currentTimeMillis() % 10);
+
+    private static final int PARAMETR_1 = 32719;
+    private static final int PARAMETR_2 = 32749;
 
     public static String convert1(String input) {
         String[] lines = input.split(System.lineSeparator());
@@ -53,18 +57,23 @@ public class Part1 {
         return sb.toString().substring(2);
     }
 
+    private static String passwordStr(){
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 4; i++) {
+            last = (last * PARAMETR_1 + 3) % PARAMETR_2;
+            sb.append(last % 10);
+        }
+        return sb.toString();
+    }
+
     public static String convert4(String input) {
-        Random rnd = new Random();
+
         String[] lines = input.split(System.lineSeparator());
         StringBuilder sb = new StringBuilder();
         sb.append(lines[0] + ";Password" + System.lineSeparator());
         for (int i = 1; i < lines.length; i++) {
-            int random = rnd.nextInt(9999);
-            while (random < 1001) {
-                random = rnd.nextInt(9999);
-            }
-            sb.append(lines[i] + ";" + random + System.lineSeparator());
-
+            sb.append(lines[i] + ";" + passwordStr() + System.lineSeparator());
         }
         return sb.toString();
     }
